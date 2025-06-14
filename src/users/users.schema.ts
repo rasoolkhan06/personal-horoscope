@@ -28,7 +28,14 @@ export class User {
   password: string;
 
   @Prop({ required: true, type: Date })
-  birthdate: string;
+  birthdate: Date;
+
+  @Prop({ required: true, enum: [
+    'Aries', 'Taurus', 'Gemini', 'Cancer', 
+    'Leo', 'Virgo', 'Libra', 'Scorpio', 
+    'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+  ]})
+  zodiacSign: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

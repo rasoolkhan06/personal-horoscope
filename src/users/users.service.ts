@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { User, IUser } from './users.schema';
 import { SignupDto } from './dtos/signup.dto';
+import { getZodiacSign } from '../common/utils/zodiac.utils';
 
 @Injectable()
 export class UsersService {
@@ -22,10 +23,16 @@ export class UsersService {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
-    // Create new user
+    // Calculate zodiac sign from the birthdate
+    const zodiacSign = getZodiacSign(createUserDto.birthdate);
+
+    // Create new user with all required fields
     const newUser = new this.userModel({
-      ...createUserDto,
+      name: createUserDto.name,
+      email: createUserDto.email,
       password: hashedPassword,
+      birthdate: createUserDto.birthdate,
+      zodiacSign,
     });
 
     return newUser.save();

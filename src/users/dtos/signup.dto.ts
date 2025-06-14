@@ -1,4 +1,5 @@
-import { IsString, IsEmail, IsDateString, MinLength, IsNotEmpty, IsDate } from 'class-validator';
+import { IsString, IsEmail, MinLength, IsNotEmpty, IsDate } from 'class-validator';
+import { Type, Transform } from 'class-transformer';
 
 export class SignupDto {
   @IsString()
@@ -14,7 +15,9 @@ export class SignupDto {
   @IsNotEmpty()
   password: string;
 
-  @IsDateString()
+  @IsDate()
   @IsNotEmpty()
-  birthdate: string;
+  @Type(() => Date)
+  @Transform(({ value }) => new Date(value))
+  birthdate: Date;
 }
