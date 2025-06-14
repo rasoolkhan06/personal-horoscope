@@ -16,7 +16,6 @@ import {
 import { HoroscopeService } from './horoscope.service.js';
 import { JwtAuthGuard } from '../users/guards/jwt-auth.guard.js';
 import { ZodiacSign } from '../common/enums/zodiac-sign.enum.js';
-import { CreateHoroscopeDto, UpdateHoroscopeDto } from './dto/create-horoscope.dto.js';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('horoscope')

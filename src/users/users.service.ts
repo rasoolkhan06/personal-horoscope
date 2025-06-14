@@ -6,7 +6,6 @@ import { User, IUser } from './users.schema.js';
 import { SignupDto } from './dtos/signup.dto.js';
 import { getZodiacSign } from '../common/utils/zodiac.utils.js';
 
-
 export interface IUserService {
   create(createUserDto: SignupDto): Promise<IUser>;
   findByEmail(email: string): Promise<IUser | null>;
@@ -46,9 +45,5 @@ export class UsersService implements IUserService {
 
   async findByEmail(email: string): Promise<IUser | null> {
     return this.userModel.findOne({ email }).select('+password').exec();
-  }
-
-  async findById(id: string): Promise<IUser | null> {
-    return this.userModel.findById(id).exec();
   }
 }

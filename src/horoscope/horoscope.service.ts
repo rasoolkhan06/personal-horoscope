@@ -3,17 +3,6 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { Horoscope, IHoroscope } from './horoscope.schema.js';
 import { ZodiacSign } from '../common/enums/zodiac-sign.enum.js';
-import type { CreateHoroscopeDto } from './dto/create-horoscope.dto.js';
-
-type PaginatedResult<T> = {
-  data: T[];
-  meta: {
-    total: number;
-    page: number;
-    totalPages: number;
-    limit: number;
-  };
-};
 
 type HoroscopeContent = {
   content: string;
@@ -24,7 +13,7 @@ type HoroscopeContent = {
   luckyColor: string;
 };
 
-// Mock data - In a real app, this would come from an external API or database
+// Mock data
 const HOROSCOPE_CONTENT: Record<ZodiacSign, HoroscopeContent> = {
   [ZodiacSign.Aries]: {
     content: 'A day full of energy and new beginnings. Take the initiative!',

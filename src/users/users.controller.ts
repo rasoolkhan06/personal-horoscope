@@ -68,20 +68,4 @@ export class UsersController {
       },
     };
   }
-
-  @Get('profile')
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get current user profile' })
-  @ApiResponse({ status: 200, description: 'Returns user profile' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
-  getProfile(@Request() req: any) {
-    if (!req.user) {
-      throw new UnauthorizedException('User not authenticated');
-    }
-    return {
-      status: 'success',
-      data: req.user,
-    };
-  }
 }
