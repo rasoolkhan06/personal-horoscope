@@ -64,38 +64,6 @@ export class HoroscopeController {
     );
   }
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  @ApiOperation({ summary: 'Create a new horoscope' })
-  @ApiResponse({ status: 201, description: 'Horoscope created successfully' })
-  async createHoroscope(
-    @Request() req: any,
-    @Body() createHoroscopeDto: CreateHoroscopeDto,
-  ) {
-    return this.horoscopeService.getDailyHoroscope(
-      req.user.userId,
-      createHoroscopeDto.zodiacSign,
-    );
-  }
-
-  @Put(':id')
-  @ApiOperation({ summary: 'Update a horoscope' })
-  @ApiResponse({ status: 200, description: 'Horoscope updated successfully' })
-  async updateHoroscope(
-    @Param('id') id: string,
-    @Body() updateHoroscopeDto: UpdateHoroscopeDto,
-  ) {
-    return this.horoscopeService.updateHoroscope(id, updateHoroscopeDto);
-  }
-
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Delete a horoscope' })
-  @ApiResponse({ status: 204, description: 'Horoscope deleted successfully' })
-  async deleteHoroscope(@Param('id') id: string) {
-    return this.horoscopeService.deleteHoroscope(id);
-  }
-
   @Get('zodiac-signs')
   @ApiOperation({ summary: 'Get all available zodiac signs' })
   @ApiResponse({ status: 200, description: 'Returns all zodiac signs' })
