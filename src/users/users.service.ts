@@ -2,12 +2,18 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { User, IUser } from './users.schema';
-import { SignupDto } from './dtos/signup.dto';
-import { getZodiacSign } from '../common/utils/zodiac.utils';
+import { User, IUser } from './users.schema.js';
+import { SignupDto } from './dtos/signup.dto.js';
+import { getZodiacSign } from '../common/utils/zodiac.utils.js';
+
+
+export interface IUserService {
+  create(createUserDto: SignupDto): Promise<IUser>;
+  findByEmail(email: string): Promise<IUser | null>;
+}
 
 @Injectable()
-export class UsersService {
+export class UsersService implements IUserService {
   constructor(
     @InjectModel(User.name) private userModel: Model<IUser>,
   ) {}
@@ -36,5 +42,13 @@ export class UsersService {
     });
 
     return newUser.save();
+  }
+
+  async findByEmail(email: string): Promise<IUser | null> {
+    return this.userModel.findOne({ email }).select('+password').exec();
+  }
+
+  async findById(id: string): Promise<IUser | null> {
+    return this.userModel.findById(id).exec();
   }
 }

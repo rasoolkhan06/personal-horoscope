@@ -1,4 +1,4 @@
-import { ZodiacSign } from '../enums/zodiac-sign.enum';
+import { ZodiacSign } from '../enums/zodiac-sign.enum.js';
 
 export function getZodiacSign(birthdate: Date): string {
   const day = birthdate.getUTCDate();

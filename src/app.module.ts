@@ -1,10 +1,12 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { APP_PIPE } from '@nestjs/core';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './users/users.module.js';
+import { HoroscopeModule } from './horoscope/horoscope.module.js';
 
 @Module({
   imports: [
     UsersModule,
+    HoroscopeModule,
   ],
   providers: [
     {
@@ -18,5 +20,6 @@ import { UsersModule } from './users/users.module';
       }),
     },
   ],
+  controllers: [],
 })
 export class AppModule {}
