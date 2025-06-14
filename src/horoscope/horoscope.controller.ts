@@ -26,9 +26,9 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 export class HoroscopeController {
   constructor(private readonly horoscopeService: HoroscopeService) {}
 
-  @Get('daily')
+  @Get('today')
   @ApiOperation({ summary: 'Get daily horoscope for the authenticated user' })
-  @ApiResponse({ status: 200, description: 'Returns the daily horoscope' })
+  @ApiResponse({ status: 200, description: 'Returns todays horoscope' })
   async getDailyHoroscope(
     @Request() req: any,
     @Query('date') date?: string,
