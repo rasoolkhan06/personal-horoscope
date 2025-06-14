@@ -189,31 +189,27 @@ export class HoroscopeService {
   }
 
   async getHoroscopeHistory(
-    userId: Types.ObjectId,
-    limit = 30,
-    page = 1,
-  ): Promise<PaginatedResult<IHoroscope>> {
+    userId: string,
+  ): Promise<{ data: IHoroscope[]; total: number }> {
     try {
-      const skip = (page - 1) * limit;
-      const [horoscopes, total] = await Promise.all([
-        this.horoscopeModel
-          .find({ userId })
-          .sort({ date: -1 })
-          .skip(skip)
-          .limit(limit)
-          .lean(),
-        this.horoscopeModel.countDocuments({ userId }),
-      ]);
-
-      return {
-        data: horoscopes,
-        meta: {
-          total,
-          page,
-          totalPages: Math.max(1, Math.ceil(total / limit)),
-          limit,
-        },
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setHours(0, 0, 0, 0); // Set to start of day
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+            
+      const query = {
+        userId: userId,
+        date: { $gte: sevenDaysAgo }
       };
+
+      const [data, total] = await Promise.all([
+        this.horoscopeModel
+          .find(query)
+          .sort({ date: -1 })
+          .exec(),
+        this.horoscopeModel.countDocuments(query),
+      ]);
+      
+      return { data, total };
     } catch (error) {
       throw new BadRequestException('Failed to fetch horoscope history');
     }

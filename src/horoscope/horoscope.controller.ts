@@ -50,18 +50,13 @@ export class HoroscopeController {
   }
 
   @Get('history')
-  @ApiOperation({ summary: 'Get horoscope history for the authenticated user' })
-  @ApiResponse({ status: 200, description: 'Returns paginated horoscope history' })
+  @ApiOperation({ summary: 'Get last 7 days of horoscopes for the authenticated user' })
+  @ApiResponse({ status: 200, description: 'Returns last 7 days of horoscopes' })
   async getHoroscopeHistory(
     @Request() req: any,
-    @Query('page') page = 1,
-    @Query('limit') limit = 10,
   ) {
-    return this.horoscopeService.getHoroscopeHistory(
-      req.user.userId,
-      Number(limit),
-      Number(page),
-    );
+    const result = await this.horoscopeService.getHoroscopeHistory(req.user.userId);
+    return result.data;
   }
 
   @Get('zodiac-signs')
