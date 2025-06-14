@@ -17,6 +17,7 @@ import { HoroscopeService } from './horoscope.service.js';
 import { JwtAuthGuard } from '../users/guards/jwt-auth.guard.js';
 import { ZodiacSign } from '../common/enums/zodiac-sign.enum.js';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ThrottlerGuard, Throttle } from '@nestjs/throttler';
 
 @ApiTags('horoscope')
 @Controller('horoscope')
@@ -26,6 +27,7 @@ export class HoroscopeController {
   constructor(private readonly horoscopeService: HoroscopeService) {}
 
   @Get('today')
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 requests per minute
   @ApiOperation({ summary: 'Get daily horoscope for the authenticated user' })
   @ApiResponse({ status: 200, description: 'Returns todays horoscope' })
   async getDailyHoroscope(
@@ -49,6 +51,7 @@ export class HoroscopeController {
   }
 
   @Get('history')
+  @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5 requests per minute
   @ApiOperation({ summary: 'Get last 7 days of horoscopes for the authenticated user' })
   @ApiResponse({ status: 200, description: 'Returns last 7 days of horoscopes' })
   async getHoroscopeHistory(
